@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0A0A0F;
+  --color-surface: #12121A;
+  --color-surface-elevated: #1A1A28;
+  --color-border: #2A2A3C;
+  --color-text-primary: #F0F0F5;
+  --color-text-secondary: #8888A0;
+  --color-brand-blue: #3B82F6;
+  --color-brand-green: #22C55E;
+  --color-brand-amber: #F59E0B;
+  --color-brand-cyan: #06B6D4;
+}
+
+/* ── Eye Animation Keyframes ───────────────────────────── */
+
+@keyframes eyePulse {
+  0%, 100% { transform: scale(1.0); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes eyeGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes eyeBlink {
+  0%, 48%, 52%, 100% { transform: scaleY(1); }
+  49%, 51% { transform: scaleY(0.08); }
+}
+
+@keyframes stateColorCycle {
+  0%, 100% { --eye-color: #3B82F6; }   /* blue - idle */
+  20% { --eye-color: #22C55E; }         /* green - listening */
+  40% { --eye-color: #F59E0B; }         /* amber - working */
+  60% { --eye-color: #06B6D4; }         /* cyan - verifying */
+  80% { --eye-color: #22C55E; }         /* green - success */
+}
+
+@keyframes irisSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pupilLook {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(3px, -2px); }
+  50% { transform: translate(-2px, 1px); }
+  75% { transform: translate(1px, 3px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Eye Component Styles ──────────────────────────────── */
+
+.eye-container {
+  animation: stateColorCycle 12s ease-in-out infinite;
+}
+
+.eye-sclera {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ffffff 0%, #e8e8f0 60%, #c8c8d8 100%);
+  position: relative;
+  overflow: hidden;
+  animation: eyeBlink 6s ease-in-out infinite;
+  box-shadow:
+    0 0 60px var(--eye-color, #3B82F6),
+    0 0 120px color-mix(in srgb, var(--eye-color, #3B82F6) 50%, transparent);
+}
+
+.eye-iris {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle at 45% 40%,
+    color-mix(in srgb, var(--eye-color, #3B82F6) 80%, white) 0%,
+    var(--eye-color, #3B82F6) 50%,
+    color-mix(in srgb, var(--eye-color, #3B82F6) 70%, black) 100%
+  );
+}
+
+.eye-iris-spin {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--eye-color, #3B82F6) 30%, transparent) 60deg,
+    transparent 120deg,
+    color-mix(in srgb, var(--eye-color, #3B82F6) 20%, transparent) 240deg,
+    transparent 360deg
+  );
+  animation: irisSpin 8s linear infinite;
+}
+
+.eye-pupil {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 45% 40%, #1a1a2e 0%, #0a0a12 60%, #000000 100%);
+  animation: pupilLook 10s ease-in-out infinite;
+}
+
+.eye-specular {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 28%;
+  right: 32%;
+  background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+}
+
+.eye-glow-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 2px solid var(--eye-color, #3B82F6);
+  opacity: 0.3;
+  animation: eyePulse 3s ease-in-out infinite, eyeGlow 4s ease-in-out infinite;
+}
+
+/* ── Glassmorphism ─────────────────────────────────────── */
+
+.glass {
+  background: rgba(18, 18, 26, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(42, 42, 60, 0.5);
+}
+
+/* ── Animations ────────────────────────────────────────── */
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+/* ── Base Styles ───────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0A0A0F;
+  color: #F0F0F5;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #F0F0F5;
+}
