@@ -11,7 +11,7 @@ export default function Footer() {
 
         <div className="flex items-center gap-6 text-sm text-text-secondary">
           <a
-            href="https://github.com/suede/cyclop-one"
+            href="https://github.com/yuvalsuede/cyclop-one"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-text-primary transition-colors"

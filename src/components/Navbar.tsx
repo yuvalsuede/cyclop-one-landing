@@ -13,7 +13,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/suede/cyclop-one"
+            href="https://github.com/yuvalsuede/cyclop-one"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-text-secondary hover:text-text-primary transition-colors"

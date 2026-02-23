@@ -46,7 +46,7 @@ export default function Hero() {
             Download for Mac
           </a>
           <a
-            href="https://github.com/suede/cyclop-one"
+            href="https://github.com/yuvalsuede/cyclop-one"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-base font-semibold text-text-primary hover:bg-surface-elevated transition-colors"
