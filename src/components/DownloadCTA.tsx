@@ -30,8 +30,18 @@ export default function DownloadCTA() {
           Download for macOS
         </a>
 
+        {/* Gatekeeper note */}
+        <div className="mt-6 rounded-xl border border-brand-amber/20 bg-brand-amber/5 px-5 py-4 text-left">
+          <p className="text-sm text-text-secondary">
+            <span className="font-medium text-brand-amber">First launch:</span>{" "}
+            macOS may show &quot;cannot be opened&quot; since the app isn&apos;t notarized yet.
+            Right-click the app &rarr; <span className="text-text-primary font-medium">Open</span> &rarr;
+            click <span className="text-text-primary font-medium">Open</span> in the dialog.
+          </p>
+        </div>
+
         {/* System requirements */}
-        <div className="mt-12 rounded-2xl border border-border bg-surface p-6 text-left">
+        <div className="mt-6 rounded-2xl border border-border bg-surface p-6 text-left">
           <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
             System Requirements
           </h3>
