@@ -1,4 +1,5 @@
 import EyeLogo from "./EyeLogo";
+import BrandName from "./BrandName";
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2.5">
           <EyeLogo size={24} />
-          <span className="text-sm font-medium text-text-secondary">Cyclop One</span>
+          <BrandName className="text-sm text-text-secondary" />
         </div>
 
         <div className="flex items-center gap-6 text-sm text-text-secondary">

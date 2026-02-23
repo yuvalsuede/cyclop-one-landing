@@ -1,4 +1,5 @@
 import EyeLogo from "./EyeLogo";
+import BrandName from "./BrandName";
 
 export default function Navbar() {
   return (
@@ -6,9 +7,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-6xl flex items-center justify-between px-6 py-3">
         <a href="#" className="flex items-center gap-2.5 group">
           <EyeLogo size={28} />
-          <span className="text-lg font-semibold text-text-primary">
-            Cyclop One
-          </span>
+          <BrandName className="text-lg text-text-primary" />
         </a>
 
         <div className="flex items-center gap-4">
