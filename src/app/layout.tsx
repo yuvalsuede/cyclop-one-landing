@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     url: "https://cyclop.one",
     siteName: "Cyclop One",
     locale: "en_US",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Cyclop One — AI Desktop Automation Agent for macOS" }],
     type: "website",
   },
   twitter: {
@@ -41,6 +42,7 @@ export const metadata: Metadata = {
       "An open-source macOS agent that sees your screen, thinks with Claude AI, and takes real actions.",
     site: "@cyclopone",
     creator: "@cyclopone",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
