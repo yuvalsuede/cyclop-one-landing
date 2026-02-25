@@ -3,10 +3,10 @@
 import { useState } from "react";
 import type { SkillEntry } from "@/app/skills/page";
 
-const OS_ICONS: Record<string, string> = {
-  macos: "🍎",
-  windows: "🪟",
-  linux: "🐧",
+const OS_LABELS: Record<string, string> = {
+  macos: "macOS",
+  windows: "Windows",
+  linux: "Linux",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -63,7 +63,7 @@ function SkillCard({ skill }: { skill: SkillEntry }) {
               key={platform}
               className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-md bg-[var(--color-surface-elevated)] text-[var(--color-text-secondary)] border border-[var(--color-border)]"
             >
-              {OS_ICONS[platform] ?? "💻"} {platform}
+              {OS_LABELS[platform] ?? platform}
             </span>
           ))}
         </div>
@@ -176,7 +176,7 @@ export default function SkillsGrid({ skills }: { skills: SkillEntry[] }) {
                     : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-brand-blue)]/50"
                 }`}
               >
-                {platform === ALL ? "All" : `${OS_ICONS[platform] ?? "💻"} ${platform}`}
+                {platform === ALL ? "All" : (OS_LABELS[platform] ?? platform)}
               </button>
             ))}
             {allOS.length === 1 && allOS[0] === "macos" && (
