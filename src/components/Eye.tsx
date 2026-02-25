@@ -1,32 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Eye() {
   const eyeRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const irisRef = useRef<HTMLDivElement>(null);
+  const pupilRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!eyeRef.current) return;
-      const rect = eyeRef.current.getBoundingClientRect();
-      const eyeCenterX = rect.left + rect.width / 2;
-      const eyeCenterY = rect.top + rect.height / 2;
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
 
-      const dx = e.clientX - eyeCenterX;
-      const dy = e.clientY - eyeCenterY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      rafRef.current = requestAnimationFrame(() => {
+        if (!eyeRef.current || !irisRef.current || !pupilRef.current) return;
 
-      const maxOffset = 15;
-      const scale = Math.min(distance / 300, 1);
-      const x = (dx / (distance || 1)) * maxOffset * scale;
-      const y = (dy / (distance || 1)) * maxOffset * scale;
+        const rect = eyeRef.current.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
 
-      setOffset({ x, y });
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+        const maxOffset = 15;
+        const scale = Math.min(dist / 300, 1);
+        const x = (dx / dist) * maxOffset * scale;
+        const y = (dy / dist) * maxOffset * scale;
+
+        irisRef.current.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        pupilRef.current.style.transform = `translate(calc(-50% + ${x * 0.3}px), calc(-50% + ${y * 0.3}px))`;
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
@@ -41,15 +52,17 @@ export default function Eye() {
       <div className="eye-sclera">
         {/* Iris */}
         <div
+          ref={irisRef}
           className="eye-iris"
-          style={{ transform: `translate(calc(-50% + ${offset.x}px), calc(-50% + ${offset.y}px))` }}
+          style={{ transform: "translate(-50%, -50%)" }}
         >
           {/* Spinning overlay */}
           <div className="eye-iris-spin" />
           {/* Pupil */}
           <div
+            ref={pupilRef}
             className="eye-pupil"
-            style={{ transform: `translate(calc(-50% + ${offset.x * 0.3}px), calc(-50% + ${offset.y * 0.3}px))` }}
+            style={{ transform: "translate(-50%, -50%)" }}
           />
         </div>
         {/* Specular highlight */}
