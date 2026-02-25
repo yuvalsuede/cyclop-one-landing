@@ -26,7 +26,7 @@ export default function Hero() {
         {/* CTA buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4 animate-fade-in-up-delay-2">
           <a
-            href="#download"
+            href="https://github.com/cyclop-one/cyclop-one/releases/download/v0.1.0/CyclopOne-0.1.0.dmg"
             className="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-6 py-3 text-base font-semibold text-white hover:bg-brand-blue/90 transition-colors shadow-lg shadow-brand-blue/20"
           >
             <svg
@@ -46,7 +46,7 @@ export default function Hero() {
             Download for Mac
           </a>
           <a
-            href="https://github.com/yuvalsuede/cyclop-one"
+            href="https://github.com/cyclop-one/cyclop-one"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-base font-semibold text-text-primary hover:bg-surface-elevated transition-colors"

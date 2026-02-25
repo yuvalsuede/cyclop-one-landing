@@ -10,7 +10,7 @@ export default function DownloadCTA() {
         </p>
 
         <a
-          href="/CyclopOne.dmg"
+          href="https://github.com/cyclop-one/cyclop-one/releases/download/v0.1.0/CyclopOne-0.1.0.dmg"
           className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-blue px-8 py-4 text-lg font-semibold text-white hover:bg-brand-blue/90 transition-colors shadow-lg shadow-brand-blue/20"
         >
           <svg
@@ -29,16 +29,6 @@ export default function DownloadCTA() {
           </svg>
           Download for macOS
         </a>
-
-        {/* Gatekeeper note */}
-        <div className="mt-6 rounded-xl border border-brand-amber/20 bg-brand-amber/5 px-5 py-4 text-left">
-          <p className="text-sm text-text-secondary">
-            <span className="font-medium text-brand-amber">First launch:</span>{" "}
-            macOS may show &quot;cannot be opened&quot; since the app isn&apos;t notarized yet.
-            Right-click the app &rarr; <span className="text-text-primary font-medium">Open</span> &rarr;
-            click <span className="text-text-primary font-medium">Open</span> in the dialog.
-          </p>
-        </div>
 
         {/* System requirements */}
         <div className="mt-6 rounded-2xl border border-border bg-surface p-6 text-left">
