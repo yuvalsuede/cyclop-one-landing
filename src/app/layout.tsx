@@ -18,15 +18,20 @@ export const metadata: Metadata = {
     "screen control",
     "AI assistant",
     "open source",
+    "macOS automation",
+    "Anthropic Claude",
   ],
   metadataBase: new URL("https://cyclop.one"),
+  alternates: {
+    canonical: "https://cyclop.one",
+  },
   openGraph: {
     title: "Cyclop One — AI Desktop Automation Agent for macOS",
     description:
       "An open-source macOS agent that sees your screen, thinks with Claude AI, and takes real actions.",
     url: "https://cyclop.one",
     siteName: "Cyclop One",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    locale: "en_US",
     type: "website",
   },
   twitter: {
@@ -34,9 +39,14 @@ export const metadata: Metadata = {
     title: "Cyclop One — AI Desktop Automation Agent for macOS",
     description:
       "An open-source macOS agent that sees your screen, thinks with Claude AI, and takes real actions.",
-    images: ["/og-image.png"],
+    site: "@cyclopone",
+    creator: "@cyclopone",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 const jsonLd = [
@@ -47,15 +57,22 @@ const jsonLd = [
     operatingSystem: "macOS 14+",
     applicationCategory: "UtilitiesApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    downloadUrl: "https://cyclop.one/CyclopOne.dmg",
+    downloadUrl: "https://github.com/cyclop-one/cyclop-one/releases/download/v0.1.0/CyclopOne-0.1.0.dmg",
     description:
       "An open-source macOS agent that sees your screen, thinks with Claude AI, and takes real actions.",
+    url: "https://cyclop.one",
+    sameAs: ["https://github.com/cyclop-one/cyclop-one"],
   },
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Cyclop One",
     url: "https://cyclop.one",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://cyclop.one/skills?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
   },
 ];
 

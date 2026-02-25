@@ -1,0 +1,61 @@
+# Cyclop One
+
+> Cyclop One is a free, open-source macOS desktop automation agent. It runs as a small floating eye icon on your screen, accepts natural language commands (typed or via Telegram), and autonomously operates any macOS application using Claude AI vision and macOS Accessibility APIs.
+
+## Pages
+
+- [Home](https://cyclop.one): Product overview, features, demo, and download link.
+- [Skills Hub](https://cyclop.one/skills): Community and built-in skills that extend the agent for specific apps (Gmail, WhatsApp, Slack, Notion, Spotify, etc.).
+
+## Key Links
+
+- [Download (DMG)](https://github.com/cyclop-one/cyclop-one/releases/download/v0.1.0/CyclopOne-0.1.0.dmg): Latest macOS installer.
+- [GitHub Repository](https://github.com/cyclop-one/cyclop-one): Source code, issues, and releases (MIT License).
+- [Skills Registry](https://github.com/cyclop-one/cyclop-hub): Community skill packages.
+
+## Product
+
+Cyclop One works by taking periodic screenshots of the user's screen, sending them to Claude's vision model for analysis, then executing the next action via macOS Accessibility APIs (AXUIElement) and CGEvent. It runs as an LSUIElement (background agent) with a 48px floating window — no Dock icon, no menu bar clutter.
+
+**Requirements:**
+- macOS 14 Sonoma or later (Apple Silicon or Intel Mac)
+- Anthropic Claude API key (get one at console.anthropic.com)
+- Screen Recording permission
+- Accessibility permission
+
+**Key capabilities:**
+- Click, type, scroll, drag using real macOS events
+- Read UI element text via Accessibility tree
+- Take and interpret screenshots
+- Open applications and URLs
+- Run shell commands
+- Compose and send messages (Gmail, WhatsApp Web, Slack, Telegram)
+- Remote control via Telegram bot (text or voice notes)
+- Persistent memory across sessions (TF-IDF retrieval, Obsidian vault mirror)
+- Self-authoring: agent can write new skills from observed patterns
+
+## Skills
+
+Skills are JSON configuration files that teach the agent specialised workflows for a specific application. Each skill defines:
+- `trigger`: regex patterns that activate the skill for matching tasks
+- `systemPromptAddition`: extra instructions injected into the Claude prompt
+- `tools`: whitelisted tool calls for this skill
+- `maxIterations`: step budget
+- `os`: supported platforms (`macos`, `windows`, `linux`)
+
+Built-in skills: Gmail, WhatsApp, Slack, Notion, Spotify, Calendar, Notes, Reminders, X (Twitter), Safari, YouTube, Finder, Terminal.
+
+Community skills are listed at https://cyclop.one/skills and installable via the in-app skill manager.
+
+## Technical Details
+
+- Language: Swift (actors, async/await, Combine)
+- AI: Anthropic Claude API (Sonnet 4.6 for actions, Haiku 4.5 for fast checks, Opus 4.6 for planning)
+- UI: SwiftUI + AppKit (NSPanel, NSPopover)
+- Memory: TF-IDF retrieval over JSON store, Obsidian vault mirror
+- State machine: LangGraph-style graph (PERCEIVE → PLAN → ACT → OBSERVE → EVALUATE → RECOVER → COMPLETE)
+- Error recovery: 5-strategy RECOVER node (retry, rephrase, decompose, visual search, backtrack)
+- Verification: LLM vision scoring (Claude Haiku) with heuristic fallback
+- Streaming: SSE via URLSession.bytes (non-blocking)
+- Security: TLS certificate pinning, Keychain storage for API keys, hardened runtime
+- License: MIT

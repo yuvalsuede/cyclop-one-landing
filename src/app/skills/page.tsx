@@ -7,11 +7,22 @@ export const metadata: Metadata = {
   title: "Cyclop Hub — Community Skills for Cyclop One",
   description:
     "Browse and install community skills for Cyclop One. Skills teach the agent how to interact with Gmail, WhatsApp, X, and more.",
+  alternates: {
+    canonical: "https://cyclop.one/skills",
+  },
   openGraph: {
     title: "Cyclop Hub — Community Skills for Cyclop One",
     description:
-      "Browse and install community skills for Cyclop One.",
+      "Browse and install community skills for Cyclop One. Gmail, WhatsApp, Slack, Notion, Spotify and more.",
     url: "https://cyclop.one/skills",
+    siteName: "Cyclop One",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cyclop Hub — Community Skills for Cyclop One",
+    description:
+      "Browse and install community skills for Cyclop One. Gmail, WhatsApp, Slack, Notion, Spotify and more.",
   },
 };
 
