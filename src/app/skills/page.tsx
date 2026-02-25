@@ -27,6 +27,7 @@ export interface SkillEntry {
   skillURL: string;
   homepage: string;
   permissions: string[];
+  os?: string[];
 }
 
 interface SkillsIndex {

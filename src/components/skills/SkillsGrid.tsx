@@ -3,6 +3,12 @@
 import { useState } from "react";
 import type { SkillEntry } from "@/app/skills/page";
 
+const OS_ICONS: Record<string, string> = {
+  macos: "🍎",
+  windows: "🪟",
+  linux: "🐧",
+};
+
 const CATEGORY_COLORS: Record<string, string> = {
   communication: "var(--color-brand-blue)",
   social: "var(--color-brand-cyan)",
@@ -49,6 +55,20 @@ function SkillCard({ skill }: { skill: SkillEntry }) {
         </p>
       </div>
 
+      {/* OS badges */}
+      {skill.os && skill.os.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {skill.os.map((platform) => (
+            <span
+              key={platform}
+              className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-md bg-[var(--color-surface-elevated)] text-[var(--color-text-secondary)] border border-[var(--color-border)]"
+            >
+              {OS_ICONS[platform] ?? "💻"} {platform}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Tags + link */}
       <div className="mt-auto flex items-center justify-between">
         <div className="flex flex-wrap gap-1.5">
@@ -78,60 +98,93 @@ const ALL = "all";
 
 export default function SkillsGrid({ skills }: { skills: SkillEntry[] }) {
   const categories = [ALL, ...Array.from(new Set(skills.map((s) => s.category)))];
+  const allOS = Array.from(
+    new Set(skills.flatMap((s) => s.os ?? ["macos"]))
+  ).sort();
   const [active, setActive] = useState(ALL);
+  const [activeOS, setActiveOS] = useState(ALL);
   const [query, setQuery] = useState("");
 
   const filtered = skills.filter((s) => {
     const matchesCategory = active === ALL || s.category === active;
+    const skillOS = s.os ?? ["macos"];
+    const matchesOS = activeOS === ALL || skillOS.includes(activeOS);
     const q = query.toLowerCase();
     const matchesQuery =
       !q ||
       s.name.toLowerCase().includes(q) ||
       s.description.toLowerCase().includes(q) ||
       s.tags.some((t) => t.toLowerCase().includes(q));
-    return matchesCategory && matchesQuery;
+    return matchesCategory && matchesOS && matchesQuery;
   });
 
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
       {/* Filters */}
-      <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        {/* Search */}
-        <div className="relative w-full sm:w-64">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]"
-          >
-            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-            <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-          </svg>
-          <input
-            type="text"
-            placeholder="Search skills…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] pl-8 pr-4 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-brand-blue)] transition-colors"
-          />
+      <div className="mb-8 flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          {/* Search */}
+          <div className="relative w-full sm:w-64">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]"
+            >
+              <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search skills…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] pl-8 pr-4 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-brand-blue)] transition-colors"
+            />
+          </div>
+
+          {/* Category tabs */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`rounded-lg px-3 py-1.5 text-sm capitalize transition-all ${
+                  active === cat
+                    ? "bg-[var(--color-brand-blue)] text-white"
+                    : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-brand-blue)]/50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Category tabs */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className={`rounded-lg px-3 py-1.5 text-sm capitalize transition-all ${
-                active === cat
-                  ? "bg-[var(--color-brand-blue)] text-white"
-                  : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-brand-blue)]/50"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* OS filter row */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-[var(--color-text-secondary)] shrink-0">Platform:</span>
+          <div className="flex flex-wrap gap-2">
+            {[ALL, ...allOS].map((platform) => (
+              <button
+                key={platform}
+                onClick={() => setActiveOS(platform)}
+                className={`rounded-lg px-3 py-1 text-xs capitalize transition-all ${
+                  activeOS === platform
+                    ? "bg-[var(--color-brand-blue)] text-white"
+                    : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-brand-blue)]/50"
+                }`}
+              >
+                {platform === ALL ? "All" : `${OS_ICONS[platform] ?? "💻"} ${platform}`}
+              </button>
+            ))}
+            {allOS.length === 1 && allOS[0] === "macos" && (
+              <span className="text-xs text-[var(--color-text-secondary)] self-center ml-1 opacity-60">
+                · Windows &amp; Linux coming soon
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
